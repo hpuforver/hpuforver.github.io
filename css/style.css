@@ -406,7 +406,7 @@ img.thumbnail {
   font-family: "Source Code Pro", monospace, "Microsoft YaHei";
 }
 .content code {
-  color: #ff3860;
+  color: #666666;
   background: transparent;
   padding: 0;
 }
