@@ -3,8 +3,8 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 前端进阶
-subtitle: 前端路上的一个绊脚石
+title: 前端进阶VS美文欣赏
+subtitle: 前端路漫漫，吾等共勉之
 description: 前端聚集地，共同分享，共同进步！
 keywords:
 author: 蔡华
@@ -13,11 +13,10 @@ timezone:
 favicon: 
 
 # URL
-## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://yoursite.com
 root: /
-permalink: :year/:month/:day/:title/
-permalink_defaults:
+permalink: :title/  #文章的 永久链接 格式
+permalink_defaults:    #永久链接中各部分的默认值
 
 # Directory
 source_dir: source
@@ -27,16 +26,16 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: README.md
 
 # Writing
-new_post_name: :year-:month-:day-:title.md # File name of new posts
+new_post_name: :title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: true
+post_asset_folder: true  #启动 Asset 文件夹，创建新文件时，单独创建一个同名字的文件夹以放置静态资源
 relative_link: false
 future: true
 highlight:
@@ -75,7 +74,6 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: icarus
-#theme: aero-dual #还凑合
 ##theme: landscape
 
 

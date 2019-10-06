@@ -1,8 +1,9 @@
 ---
 layout: # 布局
 title: {{ title }}
+thumbnail: /img.jpg
 date: {{ date }}
-updated: #更新日期
+updated: {{date}}
 tags:     #标签（不适合分页）
 #- Diary
 #- Web
