@@ -725,35 +725,35 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="/js/main.js" defer></script>
 
     
-    <link rel="stylesheet" href="/css/search.css">
-<div class="searchbox">
-    <div class="searchbox-container">
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
         <div class="searchbox-input-wrapper">
-            <form class="search-form">
-                <input name="wd" type="text" class="searchbox-input" placeholder="想要查找什么..." />
-                <span class="searchbox-close searchbox-selectable"><i class="fa fa-times-circle"></i></span>
-            </form>
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
         </div>
     </div>
 </div>
 <script>
-    (function ($) {
-        $('.search-form').on('submit', function (e) {
-            var keyword = $('.searchbox-input[name="wd"]').val();
-            window.location = 'https://www.baidu.com/s?wd=site:yoursite.com ' + keyword;
-            return false;
-        });
-    })(jQuery);
-    (function (document, $) {
-        $(document).on('click', '.navbar-main .search', function () {
-            $('.searchbox').toggleClass('show');
-        }).on('click', '.searchbox .searchbox-mask', function () {
-            $('.searchbox').removeClass('show');
-        }).on('click', '.searchbox-close', function () {
-            $('.searchbox').removeClass('show');
-        });
-    })(document, jQuery);
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
 </script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
     
 </body>
 </html>
