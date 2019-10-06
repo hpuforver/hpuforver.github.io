@@ -1,17 +1,36 @@
 ---
-title: 欢迎来到召唤
+title: 测试
+tags: 
+    - "js"
+categories: 
+    - "前端"
+    - "js"
 ---
 Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
+
+<!-- more -->
 
 ## Quick Start
 
 ### Create a new post
 
 ``` bash
-$ hexo new "My New Post"
+    var EventConstants = _dereq_(16);
+    var EventPropagators = _dereq_(20);
+var ExecutionEnvironment = _dereq_(147);
+var FallbackCompositionState = _dereq_(21);
+var SyntheticCompositionEvent = _dereq_(102);
+var SyntheticInputEvent = _dereq_(106);
+var keyOf = _dereq_(165);
+var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
+var START_KEYCODE = 229;
+for(let i = 0, iSize = 10; i < iSize; i ++>){
+    this.newArr.push({
+        name: 'ni',
+        age: 25
+    })
+}
 ```
-
-More info: [Writing](https://hexo.io/docs/writing.html)
 
 ### Run server
 
@@ -19,20 +38,14 @@ More info: [Writing](https://hexo.io/docs/writing.html)
 $ hexo server
 ```
 
-More info: [Server](https://hexo.io/docs/server.html)
-
 ### Generate static files
 
 ``` bash
 $ hexo generate
 ```
 
-More info: [Generating](https://hexo.io/docs/generating.html)
-
 ### Deploy to remote sites
 
 ``` bash
 $ hexo deploy
 ```
-
-More info: [Deployment](https://hexo.io/docs/deployment.html)
