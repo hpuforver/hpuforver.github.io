@@ -71,7 +71,6 @@ textarea {
   border-top-right-radius: 4px;
 }
 img.thumbnail {
-  object-fit: cover;
   width: 100%;
   height: 100%;
 }
