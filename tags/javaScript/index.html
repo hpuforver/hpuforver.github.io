@@ -153,7 +153,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 480 个字)
+                    5 分钟 读完 (大约 694 个字)
                 </span>
                 
                 
@@ -166,64 +166,19 @@
             
         </h1>
         <div class="content">
-            <ul>
-<li><a href="#new">实现一个new操作符</a></li>
-</ul>
-<ul>
-<li><a href="#stringify">实现一个JSON.stringify</a></li>
-</ul>
-<ul>
-<li><a href="#parse">实现一个JSON.parse</a></li>
-</ul>
-<ul>
-<li><a href="#apply">实现一个call或 apply</a></li>
-</ul>
-<ul>
-<li><a href="#bind">实现一个Function.bind</a></li>
-</ul>
-<ul>
-<li><a href="#extend">实现一个继承</a></li>
-</ul>
-<ul>
-<li><a href="#kelihua">实现一个JS函数柯里化</a></li>
-</ul>
-<ul>
-<li><a href="#promise">手写一个Promise(中高级必考)</a></li>
-</ul>
-<ul>
-<li><a href="#Throttling">手写防抖(Debouncing)和节流(Throttling)</a></li>
-</ul>
-<ul>
-<li><a href="#deepCopy">手写一个JS深拷贝</a></li>
-</ul>
-<ul>
-<li><a href="#instanceOf">实现一个instanceOf</a></li>
-</ul>
-<hr>
-<h3 id="1-实现一个-new-操作符"><a href="#1-实现一个-new-操作符" class="headerlink" title="1. 实现一个 new 操作符"></a><strong><span id="new">1. 实现一个 <font color="#ff502c">new</font> 操作符</span></strong></h3><hr>
-<p><strong><em>new</em></strong> 操作符做了这些事：</p>
-<ul>
-<li>它创建了一个全新的对象。</li>
-<li>它会被执行 <strong><em>[[ Prototype ]]</em></strong>（也就是 <strong><em><code>__proto__</code></em></strong>）链接。</li>
-<li>它使 <strong><em>this</em></strong> 指向新创建的对象。</li>
-<li>通过 <strong><em>new</em></strong> 创建的每个对象将最终被 <strong><em>[[ Prototype ]]</em></strong> 链接到这个函数的 <strong><em>prototype</em></strong> 对象上。</li>
-<li>如果函数没有返回对象类型 <strong><em> Object</em></strong> (包含 <strong><em>Functoin, Array, Date, RegExg, Error</em></strong> )，那么 <strong><em>new</em></strong> 表达式中的函数调用将返回该对象引用。</li>
-</ul>
-<!-- 代码块 -->
-<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function New(func) &#123;</span><br><span class="line">    var res = &#123;&#125;;</span><br><span class="line">    if (func.prototype !== null) &#123;</span><br><span class="line">        res.__proto__ = func.prototype;</span><br><span class="line">    &#125;</span><br><span class="line">    var ret = func.apply(res, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">    if ((typeof ret === &quot;object&quot; || typeof ret === &quot;function&quot;) &amp;&amp; ret !== null) &#123;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br><span class="line">var obj = New(A, 1, 2);</span><br><span class="line">// equals to</span><br><span class="line">var obj = new A(1, 2);</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="2-实现一个-JSON-stringify"><a href="#2-实现一个-JSON-stringify" class="headerlink" title="2. 实现一个 JSON.stringify"></a><strong><span id="stringify">2. 实现一个 <font color="#ff502c">JSON.stringify</font></span></strong></h3><hr>
-<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">JSON.stringify(value[, replacer [, space]])</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong><em>Boolean | Number| String</em></strong> 类型会自动转换成对应的原始值。</li>
-<li><strong><em>undefined</em></strong>、任意函数以及 <strong><em>symbol</em></strong>，会被忽略（出现在非数组对象的属性值中时），或者被转换成 <strong><em>null</em></strong>（出现在数组中时）。</li>
-<li>不可枚举的属性会被忽略</li>
-<li>如果一个对象的属性值通过某种间接的方式指回该对象本身，即循环引用，属性也会被忽略。</li>
-</ul>
-<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function jsonStringify(obj) &#123;</span><br><span class="line">    let type = typeof obj;</span><br><span class="line">    if (type !== &quot;object&quot;) &#123;</span><br><span class="line">        if (/string|undefined|function/.test(type)) &#123;</span><br><span class="line">            obj = &apos;&quot;&apos; + obj + &apos;&quot;&apos;;</span><br><span class="line">        &#125;</span><br><span class="line">        return String(obj);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        let json = []</span><br><span class="line">        let arr = Array.isArray(obj)</span><br><span class="line">        for (let k in obj) &#123;</span><br><span class="line">            let v = obj[k];</span><br><span class="line">            let type = typeof v;</span><br><span class="line">            if (/string|undefined|function/.test(type)) &#123;</span><br><span class="line">                v = &apos;&quot;&apos; + v + &apos;&quot;&apos;;</span><br><span class="line">            &#125; else if (type === &quot;object&quot;) &#123;</span><br><span class="line">                v = jsonStringify(v);</span><br><span class="line">            &#125;</span><br><span class="line">            json.push((arr ? &quot;&quot; : &apos;&quot;&apos; + k + &apos;&quot;:&apos;) + String(v));</span><br><span class="line">        &#125;</span><br><span class="line">        return (arr ? &quot;[&quot; : &quot;&#123;&quot;) + String(json) + (arr ? &quot;]&quot; : &quot;&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">jsonStringify(&#123;x : 5&#125;) // &quot;&#123;&quot;x&quot;:5&#125;&quot;</span><br><span class="line">jsonStringify([1, &quot;false&quot;, false]) // &quot;[1,&quot;false&quot;,false]&quot;</span><br><span class="line">jsonStringify(&#123;b: undefined&#125;) // &quot;&#123;&quot;b&quot;:&quot;undefined&quot;&#125;&quot;</span><br></pre></td></tr></table></figure>
-
+            <pre><code>中高级前端面试之手写代码
+</code></pre>
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                    <a class="button is-size-7 is-light"
+                        href="/JavaScript手写代码无敌秘籍/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>

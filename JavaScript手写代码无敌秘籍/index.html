@@ -10,19 +10,19 @@
 <title>JavaScript手写代码无敌秘籍 - 前端进阶VS美文欣赏</title>
 
 
-    <meta name="description" content="实现一个new操作符   实现一个JSON.stringify   实现一个JSON.parse   实现一个call或 apply   实现一个Function.bind   实现一个继承   实现一个JS函数柯里化   手写一个Promise(中高级必考)   手写防抖(Debouncing)和节流(Throttling)   手写一个JS深拷贝   实现一个instanceOf   1.">
+    <meta name="description" content="中高级前端面试之手写代码">
 <meta name="keywords" content="面试,JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript手写代码无敌秘籍">
 <meta property="og:url" content="http://yoursite.com/JavaScript手写代码无敌秘籍/index.html">
 <meta property="og:site_name" content="前端进阶VS美文欣赏">
-<meta property="og:description" content="实现一个new操作符   实现一个JSON.stringify   实现一个JSON.parse   实现一个call或 apply   实现一个Function.bind   实现一个继承   实现一个JS函数柯里化   手写一个Promise(中高级必考)   手写防抖(Debouncing)和节流(Throttling)   手写一个JS深拷贝   实现一个instanceOf   1.">
+<meta property="og:description" content="中高级前端面试之手写代码">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="og:updated_time" content="2019-10-07T15:19:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript手写代码无敌秘籍">
-<meta name="twitter:description" content="实现一个new操作符   实现一个JSON.stringify   实现一个JSON.parse   实现一个call或 apply   实现一个Function.bind   实现一个继承   实现一个JS函数柯里化   手写一个Promise(中高级必考)   手写防抖(Debouncing)和节流(Throttling)   手写一个JS深拷贝   实现一个instanceOf   1.">
+<meta name="twitter:description" content="中高级前端面试之手写代码">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
 
@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 480 个字)
+                    5 分钟 读完 (大约 694 个字)
                 </span>
                 
                 
@@ -162,7 +162,9 @@
             
         </h1>
         <div class="content">
-            <ul>
+            <pre><code>中高级前端面试之手写代码
+</code></pre><a id="more"></a>
+<ul>
 <li><a href="#new">实现一个new操作符</a></li>
 </ul>
 <ul>
@@ -195,7 +197,6 @@
 <ul>
 <li><a href="#instanceOf">实现一个instanceOf</a></li>
 </ul>
-<hr>
 <h3 id="1-实现一个-new-操作符"><a href="#1-实现一个-new-操作符" class="headerlink" title="1. 实现一个 new 操作符"></a><strong><span id="new">1. 实现一个 <font color="#ff502c">new</font> 操作符</span></strong></h3><hr>
 <p><strong><em>new</em></strong> 操作符做了这些事：</p>
 <ul>
@@ -207,7 +208,6 @@
 </ul>
 <!-- 代码块 -->
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function New(func) &#123;</span><br><span class="line">    var res = &#123;&#125;;</span><br><span class="line">    if (func.prototype !== null) &#123;</span><br><span class="line">        res.__proto__ = func.prototype;</span><br><span class="line">    &#125;</span><br><span class="line">    var ret = func.apply(res, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">    if ((typeof ret === &quot;object&quot; || typeof ret === &quot;function&quot;) &amp;&amp; ret !== null) &#123;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br><span class="line">var obj = New(A, 1, 2);</span><br><span class="line">// equals to</span><br><span class="line">var obj = new A(1, 2);</span><br></pre></td></tr></table></figure>
-<hr>
 <h3 id="2-实现一个-JSON-stringify"><a href="#2-实现一个-JSON-stringify" class="headerlink" title="2. 实现一个 JSON.stringify"></a><strong><span id="stringify">2. 实现一个 <font color="#ff502c">JSON.stringify</font></span></strong></h3><hr>
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">JSON.stringify(value[, replacer [, space]])</span><br></pre></td></tr></table></figure>
 <ul>
@@ -217,6 +217,12 @@
 <li>如果一个对象的属性值通过某种间接的方式指回该对象本身，即循环引用，属性也会被忽略。</li>
 </ul>
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function jsonStringify(obj) &#123;</span><br><span class="line">    let type = typeof obj;</span><br><span class="line">    if (type !== &quot;object&quot;) &#123;</span><br><span class="line">        if (/string|undefined|function/.test(type)) &#123;</span><br><span class="line">            obj = &apos;&quot;&apos; + obj + &apos;&quot;&apos;;</span><br><span class="line">        &#125;</span><br><span class="line">        return String(obj);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        let json = []</span><br><span class="line">        let arr = Array.isArray(obj)</span><br><span class="line">        for (let k in obj) &#123;</span><br><span class="line">            let v = obj[k];</span><br><span class="line">            let type = typeof v;</span><br><span class="line">            if (/string|undefined|function/.test(type)) &#123;</span><br><span class="line">                v = &apos;&quot;&apos; + v + &apos;&quot;&apos;;</span><br><span class="line">            &#125; else if (type === &quot;object&quot;) &#123;</span><br><span class="line">                v = jsonStringify(v);</span><br><span class="line">            &#125;</span><br><span class="line">            json.push((arr ? &quot;&quot; : &apos;&quot;&apos; + k + &apos;&quot;:&apos;) + String(v));</span><br><span class="line">        &#125;</span><br><span class="line">        return (arr ? &quot;[&quot; : &quot;&#123;&quot;) + String(json) + (arr ? &quot;]&quot; : &quot;&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">jsonStringify(&#123;x : 5&#125;) // &quot;&#123;&quot;x&quot;:5&#125;&quot;</span><br><span class="line">jsonStringify([1, &quot;false&quot;, false]) // &quot;[1,&quot;false&quot;,false]&quot;</span><br><span class="line">jsonStringify(&#123;b: undefined&#125;) // &quot;&#123;&quot;b&quot;:&quot;undefined&quot;&#125;&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="3-实现一个-JSON-parse"><a href="#3-实现一个-JSON-parse" class="headerlink" title="3. 实现一个 JSON.parse"></a><strong><span id="stringify">3. 实现一个 <font color="#ff502c">JSON.parse</font></span></strong></h3><hr>
+<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">JSON.parse(text[, reviver])</span><br></pre></td></tr></table></figure>
+<p>用来解析JSON字符串，构造由字符串描述的JavaScript值或对象。提供可选的reviver函数用以在返回之前对所得到的对象执行变换(操作)。</p>
+<p>####3.1 第一种：直接调用 eval</p>
+<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function jsonParse(opt) &#123;</span><br><span class="line">    return eval(&apos;(&apos; + opt + &apos;)&apos;);</span><br><span class="line">&#125;</span><br><span class="line">jsonParse(jsonStringify(&#123;x : 5&#125;))</span><br><span class="line">// Object &#123; x: 5&#125;</span><br><span class="line">jsonParse(jsonStringify([1, &quot;false&quot;, false]))</span><br><span class="line">// [1, &quot;false&quot;, falsr]</span><br><span class="line">jsonParse(jsonStringify(&#123;b: undefined&#125;))</span><br><span class="line">// Object &#123; b: &quot;undefined&quot;&#125;</span><br></pre></td></tr></table></figure>
+<font color="#666">避免在不必要的情况下使用 eval，eval() 是一个危险的函数， 他执行的代码拥有着执行者的权利。如果你用 eval()运行的字符串代码被恶意方（不怀好意的人）操控修改，您最终可能会在您的网页/扩展程序的权限下，在用户计算机上运行恶意代码。</font>
 
         </div>
         
