@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 800 个字)
+                    6 分钟 读完 (大约 869 个字)
                 </span>
                 
                 
@@ -226,6 +226,10 @@
 <p>它会执行JS代码，有XSS漏洞。</p>
 <p>如果你只想记这个方法，就得对参数json做校验。<br><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">var rx_one = /^[\],:&#123;&#125;\s]*$/;</span><br><span class="line">var rx_two = /\\(?:[&quot;\\\/bfnrt]|u[0-9a-fA-F]&#123;4&#125;)/g;</span><br><span class="line">var rx_three = /&quot;[^&quot;\\\n\r]*&quot;|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;</span><br><span class="line">var rx_four = /(?:^|:|,)(?:\s*\[)+/g;</span><br><span class="line">if (</span><br><span class="line">    rx_one.test(</span><br><span class="line">        json</span><br><span class="line">            .replace(rx_two, &quot;@&quot;)</span><br><span class="line">            .replace(rx_three, &quot;]&quot;)</span><br><span class="line">            .replace(rx_four, &quot;&quot;)</span><br><span class="line">    )</span><br><span class="line">) &#123;</span><br><span class="line">    var obj = eval(&quot;(&quot; +json + &quot;)&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h4 id="3-2-第二种：Function"><a href="#3-2-第二种：Function" class="headerlink" title="3.2 第二种：Function"></a>3.2 第二种：Function</h4><p>核心：<strong><em>Function</em></strong> 与 <strong><em>eval</em></strong> 有相同的字符串参数特性。</p>
+<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">var func = new Function(arg1, arg2, ..., functionBody);</span><br></pre></td></tr></table></figure>
+<p>在转换JSON的实际应用中，只需要这么做。</p>
+<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">var jsonStr = &apos;&#123; &quot;age&quot;: 20, &quot;name&quot;: &quot;jack&quot; &#125;&apos;</span><br><span class="line">var json = (new Function(&apos;return &apos; + jsonStr))();</span><br></pre></td></tr></table></figure>
+<p><strong><em>eval</em></strong> 与 <strong><em>Function</em></strong> 都有着动态编译js代码的作用，但是在实际的编程中并不推荐使用。</p>
 
         </div>
         
