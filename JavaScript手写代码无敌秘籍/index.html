@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 694 个字)
+                    5 分钟 读完 (大约 800 个字)
                 </span>
                 
                 
@@ -220,9 +220,12 @@
 <h3 id="3-实现一个-JSON-parse"><a href="#3-实现一个-JSON-parse" class="headerlink" title="3. 实现一个 JSON.parse"></a><strong><span id="stringify">3. 实现一个 <font color="#ff502c">JSON.parse</font></span></strong></h3><hr>
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">JSON.parse(text[, reviver])</span><br></pre></td></tr></table></figure>
 <p>用来解析JSON字符串，构造由字符串描述的JavaScript值或对象。提供可选的reviver函数用以在返回之前对所得到的对象执行变换(操作)。</p>
-<p>####3.1 第一种：直接调用 eval</p>
-<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function jsonParse(opt) &#123;</span><br><span class="line">    return eval(&apos;(&apos; + opt + &apos;)&apos;);</span><br><span class="line">&#125;</span><br><span class="line">jsonParse(jsonStringify(&#123;x : 5&#125;))</span><br><span class="line">// Object &#123; x: 5&#125;</span><br><span class="line">jsonParse(jsonStringify([1, &quot;false&quot;, false]))</span><br><span class="line">// [1, &quot;false&quot;, falsr]</span><br><span class="line">jsonParse(jsonStringify(&#123;b: undefined&#125;))</span><br><span class="line">// Object &#123; b: &quot;undefined&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-1-第一种：直接调用-eval"><a href="#3-1-第一种：直接调用-eval" class="headerlink" title="3.1 第一种：直接调用 eval"></a>3.1 第一种：直接调用 eval</h4><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function jsonParse(opt) &#123;</span><br><span class="line">    return eval(&apos;(&apos; + opt + &apos;)&apos;);</span><br><span class="line">&#125;</span><br><span class="line">jsonParse(jsonStringify(&#123;x : 5&#125;))</span><br><span class="line">// Object &#123; x: 5&#125;</span><br><span class="line">jsonParse(jsonStringify([1, &quot;false&quot;, false]))</span><br><span class="line">// [1, &quot;false&quot;, falsr]</span><br><span class="line">jsonParse(jsonStringify(&#123;b: undefined&#125;))</span><br><span class="line">// Object &#123; b: &quot;undefined&quot;&#125;</span><br></pre></td></tr></table></figure>
 <font color="#666">避免在不必要的情况下使用 eval，eval() 是一个危险的函数， 他执行的代码拥有着执行者的权利。如果你用 eval()运行的字符串代码被恶意方（不怀好意的人）操控修改，您最终可能会在您的网页/扩展程序的权限下，在用户计算机上运行恶意代码。</font>
+
+<p>它会执行JS代码，有XSS漏洞。</p>
+<p>如果你只想记这个方法，就得对参数json做校验。<br><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">var rx_one = /^[\],:&#123;&#125;\s]*$/;</span><br><span class="line">var rx_two = /\\(?:[&quot;\\\/bfnrt]|u[0-9a-fA-F]&#123;4&#125;)/g;</span><br><span class="line">var rx_three = /&quot;[^&quot;\\\n\r]*&quot;|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;</span><br><span class="line">var rx_four = /(?:^|:|,)(?:\s*\[)+/g;</span><br><span class="line">if (</span><br><span class="line">    rx_one.test(</span><br><span class="line">        json</span><br><span class="line">            .replace(rx_two, &quot;@&quot;)</span><br><span class="line">            .replace(rx_three, &quot;]&quot;)</span><br><span class="line">            .replace(rx_four, &quot;&quot;)</span><br><span class="line">    )</span><br><span class="line">) &#123;</span><br><span class="line">    var obj = eval(&quot;(&quot; +json + &quot;)&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-2-第二种：Function"><a href="#3-2-第二种：Function" class="headerlink" title="3.2 第二种：Function"></a>3.2 第二种：Function</h4><p>核心：<strong><em>Function</em></strong> 与 <strong><em>eval</em></strong> 有相同的字符串参数特性。</p>
 
         </div>
         
