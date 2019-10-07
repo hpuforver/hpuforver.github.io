@@ -154,7 +154,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 266 个字)
+                    2 分钟 读完 (大约 275 个字)
                 </span>
                 
                 
@@ -200,7 +200,8 @@
 <ul>
 <li><a href="#instanceOf">实现一个instanceOf</a></li>
 </ul>
-<h3 id="1-实现一个-new-操作符"><a href="#1-实现一个-new-操作符" class="headerlink" title="1. 实现一个 new 操作符"></a><strong><span id="new">1. 实现一个 <font color="#ff502c">new</font> 操作符</span></strong></h3><p><strong><em>new</em></strong> 操作符做了这些事：</p>
+<h3 id="1-实现一个-new-操作符"><a href="#1-实现一个-new-操作符" class="headerlink" title="1. 实现一个 new 操作符"></a><strong><span id="new">1. 实现一个 <font color="#ff502c">new</font> 操作符</span></strong></h3><hr>
+<p><strong><em>new</em></strong> 操作符做了这些事：</p>
 <ul>
 <li>它创建了一个全新的对象。</li>
 <li>它会被执行 <strong><em>[[ Prototype ]]</em></strong>（也就是 <strong><em><code>__proto__</code></em></strong>）链接。</li>
@@ -208,8 +209,10 @@
 <li>通过 <strong><em>new</em></strong> 创建的每个对象将最终被 <strong><em>[[ Prototype ]]</em></strong> 链接到这个函数的 <strong><em>prototype</em></strong> 对象上。</li>
 <li>如果函数没有返回对象类型 <strong><em> Object</em></strong> (包含 <strong><em>Functoin, Array, Date, RegExg, Error</em></strong> )，那么 <strong><em>new</em></strong> 表达式中的函数调用将返回该对象引用。</li>
 </ul>
+<!-- 代码块 -->
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function New(func) &#123;</span><br><span class="line">    var res = &#123;&#125;;</span><br><span class="line">    if (func.prototype !== null) &#123;</span><br><span class="line">        res.__proto__ = func.prototype;</span><br><span class="line">    &#125;</span><br><span class="line">    var ret = func.apply(res, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">    if ((typeof ret === &quot;object&quot; || typeof ret === &quot;function&quot;) &amp;&amp; ret !== null) &#123;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br><span class="line">var obj = New(A, 1, 2);</span><br><span class="line">// equals to</span><br><span class="line">var obj = new A(1, 2);</span><br></pre></td></tr></table></figure>
-
+<hr>
+<h3 id="2-实现一个-JSON-stringify"><a href="#2-实现一个-JSON-stringify" class="headerlink" title="2. 实现一个 JSON.stringify"></a><strong><span id="stringify">2. 实现一个 <font color="#ff502c">JSON.stringify</font></span></strong></h3>
         </div>
         
         
