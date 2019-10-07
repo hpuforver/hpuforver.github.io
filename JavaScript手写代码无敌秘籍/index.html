@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 869 个字)
+                    7 分钟 读完 (大约 1078 个字)
                 </span>
                 
                 
@@ -217,7 +217,7 @@
 <li>如果一个对象的属性值通过某种间接的方式指回该对象本身，即循环引用，属性也会被忽略。</li>
 </ul>
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function jsonStringify(obj) &#123;</span><br><span class="line">    let type = typeof obj;</span><br><span class="line">    if (type !== &quot;object&quot;) &#123;</span><br><span class="line">        if (/string|undefined|function/.test(type)) &#123;</span><br><span class="line">            obj = &apos;&quot;&apos; + obj + &apos;&quot;&apos;;</span><br><span class="line">        &#125;</span><br><span class="line">        return String(obj);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        let json = []</span><br><span class="line">        let arr = Array.isArray(obj)</span><br><span class="line">        for (let k in obj) &#123;</span><br><span class="line">            let v = obj[k];</span><br><span class="line">            let type = typeof v;</span><br><span class="line">            if (/string|undefined|function/.test(type)) &#123;</span><br><span class="line">                v = &apos;&quot;&apos; + v + &apos;&quot;&apos;;</span><br><span class="line">            &#125; else if (type === &quot;object&quot;) &#123;</span><br><span class="line">                v = jsonStringify(v);</span><br><span class="line">            &#125;</span><br><span class="line">            json.push((arr ? &quot;&quot; : &apos;&quot;&apos; + k + &apos;&quot;:&apos;) + String(v));</span><br><span class="line">        &#125;</span><br><span class="line">        return (arr ? &quot;[&quot; : &quot;&#123;&quot;) + String(json) + (arr ? &quot;]&quot; : &quot;&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">jsonStringify(&#123;x : 5&#125;) // &quot;&#123;&quot;x&quot;:5&#125;&quot;</span><br><span class="line">jsonStringify([1, &quot;false&quot;, false]) // &quot;[1,&quot;false&quot;,false]&quot;</span><br><span class="line">jsonStringify(&#123;b: undefined&#125;) // &quot;&#123;&quot;b&quot;:&quot;undefined&quot;&#125;&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="3-实现一个-JSON-parse"><a href="#3-实现一个-JSON-parse" class="headerlink" title="3. 实现一个 JSON.parse"></a><strong><span id="stringify">3. 实现一个 <font color="#ff502c">JSON.parse</font></span></strong></h3><hr>
+<h3 id="3-实现一个-JSON-parse"><a href="#3-实现一个-JSON-parse" class="headerlink" title="3. 实现一个 JSON.parse"></a><strong><span id="parse">3. 实现一个 <font color="#ff502c">JSON.parse</font></span></strong></h3><hr>
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">JSON.parse(text[, reviver])</span><br></pre></td></tr></table></figure>
 <p>用来解析JSON字符串，构造由字符串描述的JavaScript值或对象。提供可选的reviver函数用以在返回之前对所得到的对象执行变换(操作)。</p>
 <h4 id="3-1-第一种：直接调用-eval"><a href="#3-1-第一种：直接调用-eval" class="headerlink" title="3.1 第一种：直接调用 eval"></a>3.1 第一种：直接调用 eval</h4><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function jsonParse(opt) &#123;</span><br><span class="line">    return eval(&apos;(&apos; + opt + &apos;)&apos;);</span><br><span class="line">&#125;</span><br><span class="line">jsonParse(jsonStringify(&#123;x : 5&#125;))</span><br><span class="line">// Object &#123; x: 5&#125;</span><br><span class="line">jsonParse(jsonStringify([1, &quot;false&quot;, false]))</span><br><span class="line">// [1, &quot;false&quot;, falsr]</span><br><span class="line">jsonParse(jsonStringify(&#123;b: undefined&#125;))</span><br><span class="line">// Object &#123; b: &quot;undefined&quot;&#125;</span><br></pre></td></tr></table></figure>
@@ -230,6 +230,18 @@
 <p>在转换JSON的实际应用中，只需要这么做。</p>
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">var jsonStr = &apos;&#123; &quot;age&quot;: 20, &quot;name&quot;: &quot;jack&quot; &#125;&apos;</span><br><span class="line">var json = (new Function(&apos;return &apos; + jsonStr))();</span><br></pre></td></tr></table></figure>
 <p><strong><em>eval</em></strong> 与 <strong><em>Function</em></strong> 都有着动态编译js代码的作用，但是在实际的编程中并不推荐使用。</p>
+<h3 id="4-实现一个-call-或-apply"><a href="#4-实现一个-call-或-apply" class="headerlink" title="4. 实现一个 call 或 apply"></a><strong><span id="apply">4. 实现一个 <font color="#ff502c">call</font> 或 <font color="#ff502c">apply</font></span></strong></h3><hr>
+<p><strong><em>call</em></strong> 语法：<br><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">fun.call(thisArg, arg1, arg2, ...)，调用一个函数, 其具有一个指定的this值和分别地提供的参数(参数的列表)。</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>apply</em></strong> 语法：<br><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">func.apply(thisArg, [argsArray])，调用一个函数，以及作为一个数组（或类似数组对象）提供的参数。</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-1-Function-call-按套路实现"><a href="#4-1-Function-call-按套路实现" class="headerlink" title="4.1 Function.call 按套路实现"></a>4.1 <font color="#ff502c">Function.call</font> 按套路实现</h4><p><strong><em>call</em></strong>核心：</p>
+<ul>
+<li>将函数设为对象的属性</li>
+<li>执行&amp;删除这个函数</li>
+<li>指定this到函数并传入给定参数执行函数</li>
+<li>如果不传入参数，默认指向为 window</li>
+</ul>
+<h5 id="4-1-1-简单版"><a href="#4-1-1-简单版" class="headerlink" title="4.1.1 简单版"></a>4.1.1 简单版</h5><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">var foo = &#123;</span><br><span class="line">    value: 1,</span><br><span class="line">    bar: function() &#123;</span><br><span class="line">        console.log(this.value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">foo.bar() // 1</span><br></pre></td></tr></table></figure>
+<h5 id="4-1-2-完善版"><a href="#4-1-2-完善版" class="headerlink" title="4.1.2 完善版"></a>4.1.2 完善版</h5><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">Function.prototype.call2 = function(content = window) &#123;</span><br><span class="line">    content.fn = this;</span><br><span class="line">    let args = [...arguments].slice(1);</span><br><span class="line">    let result = content.fn(...args);</span><br><span class="line">    delete content.fn;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line">let foo = &#123;</span><br><span class="line">    value: 1</span><br><span class="line">&#125;</span><br><span class="line">function bar(name, age) &#123;</span><br><span class="line">    console.log(name)</span><br><span class="line">    console.log(age)</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;</span><br><span class="line">bar.call2(foo, &apos;black&apos;, &apos;18&apos;) // black 18 1</span><br></pre></td></tr></table></figure>
 
         </div>
         
