@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 275 个字)
+                    2 分钟 读完 (大约 280 个字)
                 </span>
                 
                 
@@ -207,7 +207,8 @@
 <!-- 代码块 -->
 <figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">function New(func) &#123;</span><br><span class="line">    var res = &#123;&#125;;</span><br><span class="line">    if (func.prototype !== null) &#123;</span><br><span class="line">        res.__proto__ = func.prototype;</span><br><span class="line">    &#125;</span><br><span class="line">    var ret = func.apply(res, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">    if ((typeof ret === &quot;object&quot; || typeof ret === &quot;function&quot;) &amp;&amp; ret !== null) &#123;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br><span class="line">var obj = New(A, 1, 2);</span><br><span class="line">// equals to</span><br><span class="line">var obj = new A(1, 2);</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="2-实现一个-JSON-stringify"><a href="#2-实现一个-JSON-stringify" class="headerlink" title="2. 实现一个 JSON.stringify"></a><strong><span id="stringify">2. 实现一个 <font color="#ff502c">JSON.stringify</font></span></strong></h3>
+<h3 id="2-实现一个-JSON-stringify"><a href="#2-实现一个-JSON-stringify" class="headerlink" title="2. 实现一个 JSON.stringify"></a><strong><span id="stringify">2. 实现一个 <font color="#ff502c">JSON.stringify</font></span></strong></h3><figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">JSON.stringify(value[, replacer [, space]])</span><br></pre></td></tr></table></figure>
+
         </div>
         
         <div class="level is-size-7 is-uppercase">
