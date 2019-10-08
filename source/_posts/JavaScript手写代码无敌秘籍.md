@@ -1,12 +1,21 @@
 ---
 title: JavaScript手写代码无敌秘籍
-thumbnail: 
+thumbnail: images/default_face.jpg
 date: 2019-10-07 23:19:44
-updated: 2019-10-07 23:19:44
+updated: 2019-10-08 23:19:44
 layout:
 tags: 
     - 面试
     - JavaScript
+    - 'JSON.stringify'
+    - 'JSON.parse'
+    - call/apply/bind
+    - 柯里化
+    - Promise
+    - 节流/防抖
+    - 深拷贝
+    - 继承
+    - instanceOf
 categories:
     - 面试
     - JavaScript
