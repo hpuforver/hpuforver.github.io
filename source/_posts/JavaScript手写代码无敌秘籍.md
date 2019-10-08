@@ -40,7 +40,7 @@ comments:
 - 如果函数没有返回对象类型 *** Object*** (包含 ***Functoin, Array, Date, RegExg, Error*** )，那么 ***new*** 表达式中的函数调用将返回该对象引用。
 
 <!-- 代码块 -->
-``` base
+```javascript
 function New(func) {
     var res = {};
     if (func.prototype !== null) {
@@ -68,7 +68,7 @@ var obj = new A(1, 2);
 - 不可枚举的属性会被忽略
 - 如果一个对象的属性值通过某种间接的方式指回该对象本身，即循环引用，属性也会被忽略。
 
-``` base
+```javascript
 function jsonStringify(obj) {
     let type = typeof obj;
     if (type !== "object") {
@@ -106,7 +106,7 @@ jsonStringify({b: undefined}) // "{"b":"undefined"}"
 
 #### 3.1 第一种：直接调用 eval
 
-``` base
+```javascript
 function jsonParse(opt) {
     return eval('(' + opt + ')');
 }
@@ -122,7 +122,7 @@ jsonParse(jsonStringify({b: undefined}))
 ***它会执行JS代码，有XSS漏洞。***
 
 如果你只想记这个方法，就得对参数json做校验。
-```
+```javascript
 var rx_one = /^[\],:{}\s]*$/;
 var rx_two = /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g;
 var rx_three = /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;
@@ -143,13 +143,13 @@ if (
 
 核心：***Function*** 与 ***eval*** 有相同的字符串参数特性。
 
-```
+```javascript
 var func = new Function(arg1, arg2, ..., functionBody);
 ```
 
 在转换JSON的实际应用中，只需要这么做。
 
-```
+```javascript
 var jsonStr = '{ "age": 20, "name": "jack" }'
 var json = (new Function('return ' + jsonStr))();
 ```
@@ -176,7 +176,7 @@ var json = (new Function('return ' + jsonStr))();
 - 如果不传入参数，默认指向为 window
 
 ##### 4.1.1 简单版
-```
+```javascript
 var foo = {
     value: 1,
     bar: function() {
@@ -187,7 +187,7 @@ foo.bar() // 1
 ```
 
 ##### 4.1.2 完善版
-```
+```javascript
 Function.prototype.call2 = function(content = window) {
     content.fn = this;
     let args = [...arguments].slice(1);
@@ -209,7 +209,7 @@ bar.call2(foo, 'black', '18') // black 18 1
 #### 4.2 <font color=#ff502c>Function.apply</font> 的模拟实现
 
 ***apply()*** 的实现和 ***call()*** 类似，只是参数形式不同。
-```
+```javascript
 Function.prototype.apply2 = function(context = window) {
     context.fn = this
     let result;
@@ -234,7 +234,7 @@ Function.prototype.apply2 = function(context = window) {
 
 此外，***bind*** 实现需要考虑实例化后对原型链的影响。
 
-```
+```javascript
 Function.prototype.bind2 = function(content) {
     if(typeof this != "function") {
         throw Error("not a function")
@@ -263,7 +263,7 @@ Function.prototype.bind2 = function(content) {
 
 核心实现是：**用一个 ***F*** 空的构造函数去取代执行了 ***Parent*** 这个构造函数。**
 
-```
+```javascript
 function Parent(name) {
     this.name = name;
 }
@@ -301,7 +301,7 @@ var child = new Child('son', 'father');
 **函数柯里化的主要作用和特点就是参数复用、提前返回和延迟执行。**
 
 #### 7.1 通用版
-```
+```javascript
 function curry(fn, args) {
     var length = fn.length;
     var args = args || [];
@@ -328,7 +328,7 @@ multi(2,3)(4);
 ```
 
 #### 7.2 ES6写法
-```
+```javascript
 const curry = (fn, arr = []) => (...args) => (
   arg => arg.length === fn.length
     ? fn(...arg)
