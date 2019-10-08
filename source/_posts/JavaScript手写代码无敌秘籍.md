@@ -340,3 +340,346 @@ curryTest(1,2,3)(4) //返回10
 curryTest(1,2)(4)(3) //返回10
 curryTest(1,2)(3,4) //返回10
 ```
+
+### **<span id='promise'>8. 手写一个 <font color=#ff502c>Promise</font> (中高级必考)</span>**
+---
+
+我们来过一遍 ***Promise/A+*** 规范：
+
+- 三种状态 ***pending| fulfilled(resolved) | rejected***
+- 当处于 ***pending*** 状态的时候，可以转移到 ***fulfilled(resolved)***或者 ***rejected***状态
+- 当处于 ***fulfilled(resolved)*** 状态或者 ***rejected*** 状态的时候，就不可变。
+- 必须有一个 ***then*** 异步执行方法，***then*** 接受两个参数且必须返回一个 ***promise***.
+
+```javascript
+// onFulfilled 用来接收promise成功的值
+// onRejected 用来接收promise失败的原因
+var promise1=promise.then(onFulfilled, onRejected);
+```
+
+#### 8.1 <font color=#ff502c>Promise</font> 的流程图分析
+
+<div align=center><img src="/JavaScript手写代码无敌秘籍/promise_step.jpg" /></div>
+
+来回顾下 ***Promise*** 用法：
+
+```javascript
+var promise = new Promise((resolve,reject) => {
+    if (操作成功) {
+        resolve(value)
+    } else {
+        reject(error)
+    }
+})
+promise.then(function (value) {
+    // success
+},function (value) {
+    // failure
+})
+```
+
+#### 8.2 面试版
+
+```javascript
+function myPromise(constructor){
+    let self=this;
+    self.status="pending" //定义状态改变前的初始状态
+    self.value=undefined;//定义状态为resolved的时候的状态
+    self.reason=undefined;//定义状态为rejected的时候的状态
+    function resolve(value){
+        //两个==="pending"，保证了状态的改变是不可逆的
+       if(self.status==="pending"){
+          self.value=value;
+          self.status="resolved";
+       }
+    }
+    function reject(reason){
+        //两个==="pending"，保证了状态的改变是不可逆的
+       if(self.status==="pending"){
+          self.reason=reason;
+          self.status="rejected";
+       }
+    }
+    //捕获构造异常
+    try{
+       constructor(resolve,reject);
+    }catch(e){
+       reject(e);
+    }
+}
+```
+
+同时，需要在 ***myPromise*** 的原型上定义链式调用的 ***then*** 方法：
+
+```javascript
+myPromise.prototype.then=function(onFullfilled,onRejected){
+   let self=this;
+   switch(self.status){
+      case "resolved":
+        onFullfilled(self.value);
+        break;
+      case "rejected":
+        onRejected(self.reason);
+        break;
+      default:       
+   }
+}
+```
+
+测试一下：
+
+```javascript
+var p=new myPromise(function(resolve,reject){resolve(1)});
+p.then(function(x){console.log(x)})
+//输出1
+```
+
+#### 8.3 大厂专供版
+
+直接贴代码
+
+```javascript
+const PENDING = "pending";
+const FULFILLED = "fulfilled";
+const REJECTED = "rejected";
+
+function Promise(excutor) {
+    let that = this; // 缓存当前promise实例对象
+    that.status = PENDING; // 初始状态
+    that.value = undefined; // fulfilled状态时 返回的信息
+    that.reason = undefined; // rejected状态时 拒绝的原因
+    that.onFulfilledCallbacks = []; // 存储fulfilled状态对应的onFulfilled函数
+    that.onRejectedCallbacks = []; // 存储rejected状态对应的onRejected函数
+
+    function resolve(value) { // value成功态时接收的终值
+        if(value instanceof Promise) {
+            return value.then(resolve, reject);
+        }
+        // 实践中要确保 onFulfilled 和 onRejected 方法异步执行，且应该在 then 方法被调用的那一轮事件循环之后的新执行栈中执行。
+        setTimeout(() => {
+            // 调用resolve 回调对应onFulfilled函数
+            if (that.status === PENDING) {
+                // 只能由pending状态 => fulfilled状态 (避免调用多次resolve reject)
+                that.status = FULFILLED;
+                that.value = value;
+                that.onFulfilledCallbacks.forEach(cb => cb(that.value));
+            }
+        });
+    }
+    function reject(reason) { // reason失败态时接收的拒因
+        setTimeout(() => {
+            // 调用reject 回调对应onRejected函数
+            if (that.status === PENDING) {
+                // 只能由pending状态 => rejected状态 (避免调用多次resolve reject)
+                that.status = REJECTED;
+                that.reason = reason;
+                that.onRejectedCallbacks.forEach(cb => cb(that.reason));
+            }
+        });
+    }
+
+    // 捕获在excutor执行器中抛出的异常
+    // new Promise((resolve, reject) => {
+    //     throw new Error('error in excutor')
+    // })
+    try {
+        excutor(resolve, reject);
+    } catch (e) {
+        reject(e);
+    }
+}
+
+Promise.prototype.then = function(onFulfilled, onRejected) {
+    const that = this;
+    let newPromise;
+    // 处理参数默认值 保证参数后续能够继续执行
+    onFulfilled =
+        typeof onFulfilled === "function" ? onFulfilled : value => value;
+    onRejected =
+        typeof onRejected === "function" ? onRejected : reason => {
+            throw reason;
+        };
+    if (that.status === FULFILLED) { // 成功态
+        return newPromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                try{
+                    let x = onFulfilled(that.value);
+                    resolvePromise(newPromise, x, resolve, reject); // 新的promise resolve 上一个onFulfilled的返回值
+                } catch(e) {
+                    reject(e); // 捕获前面onFulfilled中抛出的异常 then(onFulfilled, onRejected);
+                }
+            });
+        })
+    }
+
+    if (that.status === REJECTED) { // 失败态
+        return newPromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                try {
+                    let x = onRejected(that.reason);
+                    resolvePromise(newPromise, x, resolve, reject);
+                } catch(e) {
+                    reject(e);
+                }
+            });
+        });
+    }
+
+    if (that.status === PENDING) { // 等待态
+        // 当异步调用resolve/rejected时 将onFulfilled/onRejected收集暂存到集合中
+        return newPromise = new Promise((resolve, reject) => {
+            that.onFulfilledCallbacks.push((value) => {
+                try {
+                    let x = onFulfilled(value);
+                    resolvePromise(newPromise, x, resolve, reject);
+                } catch(e) {
+                    reject(e);
+                }
+            });
+            that.onRejectedCallbacks.push((reason) => {
+                try {
+                    let x = onRejected(reason);
+                    resolvePromise(newPromise, x, resolve, reject);
+                } catch(e) {
+                    reject(e);
+                }
+            });
+        });
+    }
+};
+```
+
+### **<span id='Throttling'>9. 手写防抖(<font color=#ff502c>Debouncing</font>)和节流(<font color=#ff502c>Throttling</font>)</span>**
+---
+
+- ***scroll*** 事件本身会触发页面的重新渲染，同时 ***scroll*** 事件的 ***handler*** 又会被高频度的触发, 因此事件的 ***handler*** 内部不应该有复杂操作，例如 DOM 操作就不应该放在事件处理中。
+针对此类高频度触发事件问题（例如页面 ***scroll*** ，屏幕 ***resize***，监听用户输入等），有两种常用的解决方法，防抖和节流。
+
+#### 9.1 防抖( <font color=#ff502c>Debouncing</font> )实现
+
+典型例子：限制 鼠标连击 触发。
+
+一个比较好的解释是：
+
+- 当一次事件发生后，事件处理器要等一定阈值的时间，如果这段时间过去后 再也没有 事件发生，就处理最后一次发生的事件。假设还差 0.01 秒就到达指定时间，这时又来了一个事件，那么之前的等待作废，需要重新再等待指定时间。
+
+<div align=center><img src="/JavaScript手写代码无敌秘籍/debounce_step.jpg" /></div>
+
+```javascript
+// 防抖动函数
+function debounce(fn,wait=50,immediate) {
+    let timer;
+    return function() {
+        if(immediate) {
+            fn.apply(this,arguments)
+        }
+        if(timer) clearTimeout(timer)
+        timer = setTimeout(()=> {
+            fn.apply(this,arguments)
+        },wait)
+    }
+}
+```
+
+结合实例：滚动防抖
+
+```javascript
+// 简单的防抖动函数
+// 实际想绑定在 scroll 事件上的 handler
+function realFunc(){
+    console.log("Success");
+}
+// 采用了防抖动
+window.addEventListener('scroll',debounce(realFunc,500));
+// 没采用防抖动
+window.addEventListener('scroll',realFunc);
+```
+
+#### 9.2 节流( <font color=#ff502c>Throttling</font> )实现
+
+- 可以理解为事件在一个管道中传输，加上这个节流阀以后，事件的流速就会减慢。实际上这个函数的作用就是如此，它可以将一个函数的调用频率限制在一定阈值内，例如 1s，那么 1s 内这个函数一定不会被调用两次.
+
+<div align=center><img src="/JavaScript手写代码无敌秘籍/throttle_step.jpg" /></div>
+
+简单的节流函数:
+
+```javascript
+function throttle(fn, wait) {
+	let prev = new Date();
+	return function() { 
+	    const args = arguments;
+		const now = new Date();
+		if (now - prev > wait) {
+			fn.apply(this, args);
+			prev = new Date();
+		}
+	}
+}
+```
+
+#### 9.3 结合实践
+
+**通过第三个参数来切换模式。**
+
+```javascript
+const throttle = function (fn, delay, isDebounce) {
+    let timer;
+    let lastCall = 0;
+    return function (...args) {
+        if (isDebounce) {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                fn(...args);
+            }, delay);
+        } else {
+            const now = new Date().getTime();
+            if (now - lastCall < delay) return;
+            lastCall = now;
+            fn(...args);
+        }
+    }
+}
+```
+
+### **<span id='deepCopy'>10. 手写一个 <font color=#ff502c>JS</font> 深拷贝</span>**
+---
+
+#### 10.1 最简版
+
+```javascript
+var newObj = JSON.parse( JSON.stringify( someObj ));
+```
+
+#### 10.2 面试版
+
+```javascript
+function deepCopy(obj){
+    //判断是否是简单数据类型，
+    if(typeof obj == "object"){
+        //复杂数据类型
+        var result = obj.constructor == Array ? [] : {};
+        for(let i in obj){
+            result[i] = typeof obj[i] == "object" ? deepCopy(obj[i]) : obj[i];
+        }
+    }else {
+        //简单数据类型 直接 == 赋值
+        var result = obj;
+    }
+    return result;
+}
+```
+
+### **<span id='instanceOf'>11. 实现一个 <font color=#ff502c>instanceOf</font></span>**
+---
+
+```javascript
+function instanceOf(left,right) {
+    let proto = left.__proto__;
+    let prototype = right.prototype
+    while(true) {
+        if(proto === null) return false
+        if(proto === prototype) return true
+        proto = proto.__proto__;
+    }
+}
+```
