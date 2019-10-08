@@ -100,7 +100,7 @@ jsonStringify({b: undefined}) // "{"b":"undefined"}"
 ### **<span id='parse'>3. 实现一个 <font color=#ff502c>JSON.parse</font></span>**
 ---
 
-<font color=#ff502c>JSON.parse(text[, reviver])</font>
+<p style="color:#ff502c">JSON.parse(text[, reviver])</p>
 
 用来解析JSON字符串，构造由字符串描述的JavaScript值或对象。提供可选的reviver函数用以在返回之前对所得到的对象执行变换(操作)。
 
