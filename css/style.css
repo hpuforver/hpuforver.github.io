@@ -434,7 +434,6 @@ figure.highlight table tr:hover {
 }
 figure.highlight table {
   width: auto;
-  border-radius: 0 0 0.3rem 0.3rem;
 }
 figure.highlight pre {
   padding: 0;
@@ -448,7 +447,6 @@ figure.highlight .gutter {
   background: rgba(200,200,200,0.15);
 }
 figure.highlight figcaption {
-  border-radius: 0.3rem 0.3rem 0 0;
   padding: 0.3em 0.75em;
   text-align: left;
   font-style: normal;
