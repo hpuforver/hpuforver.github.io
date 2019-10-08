@@ -144,7 +144,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    12 分钟 读完 (大约 1776 个字)
+                    12 分钟 读完 (大约 1843 个字)
                 </span>
                 
                 
@@ -270,7 +270,11 @@
 <li>当处于 <strong><em>fulfilled(resolved)</em></strong> 状态或者 <strong><em>rejected</em></strong> 状态的时候，就不可变。</li>
 <li>必须有一个 <strong><em>then</em></strong> 异步执行方法，<strong><em>then</em></strong> 接受两个参数且必须返回一个 <strong><em>promise</em></strong>.</li>
 </ul>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-comment">// onFulfilled 用来接收promise成功的值</span></span><br><span class="line"><span class="hljs-comment">// onRejected 用来接收promise失败的原因</span></span><br><span class="line">promise1=promise.then(onFulfilled, onRejected);</span><br></pre></td></tr></table></figure>
+<h4 id="Promise-的流程图分析"><a href="#Promise-的流程图分析" class="headerlink" title="Promise 的流程图分析"></a><font color="#ff502c">Promise</font> 的流程图分析</h4><div align="center"><img src="/JavaScript手写代码无敌秘籍/promise_step.jpg"></div>
 
+<p>来回顾下 <strong><em>Promise</em></strong> 用法：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (操作成功) &#123;</span><br><span class="line">        resolve(value)</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        reject(error)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">promise.then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// success</span></span><br><span class="line">&#125;,<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// failure</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
         </div>
         
         <div class="level is-size-7 is-uppercase">
