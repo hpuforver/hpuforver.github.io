@@ -424,7 +424,7 @@ figure.highlight {
   border-radius: 0.3rem;
 }
 figure.highlight.folded .highlight-body {
-  transition: height 0.5s ease-in-out;
+  transition: all 2.5s ease-in-out;
   height: 0;
 }
 figure.highlight pre,
@@ -477,7 +477,7 @@ figure.highlight figcaption .fold {
 }
 figure.highlight .highlight-body {
   overflow: auto;
-  transition: height 0.5s ease-in-out;
+  transition: all 2.5s ease-in-out;
 }
 figure.highlight .gutter {
   text-align: right;
