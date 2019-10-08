@@ -74,7 +74,6 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: icarus
-##theme: landscape
 
 
 # 自動节选部分内容
