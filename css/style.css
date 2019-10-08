@@ -420,6 +420,8 @@ figure.highlight {
   width: 100%;
   position: relative;
   margin: 1em 0 1em !important;
+  background: #002b36;
+  border-radius: 0.3rem;
 }
 figure.highlight.folded .highlight-body {
   height: 0;
@@ -471,6 +473,8 @@ figure.highlight figcaption a {
 figure.highlight figcaption .fold {
   margin-right: 0.5em;
   cursor: pointer;
+  display: inline-block;
+  width: 50%;
 }
 figure.highlight .highlight-body {
   overflow: auto;
