@@ -164,7 +164,7 @@ img.thumbnail {
   box-shadow: inset 0 -1px 0 #333 sf;
 }
 .widget .has-text-centered figure.image img:hover {
-  animation: gogogo 2s infinite linear;
+  animation: gogogo 5s infinite linear;
 }
 .pagination .pagination-link:not(.is-current),
 .pagination .pagination-previous,
