@@ -222,6 +222,9 @@ img.thumbnail {
 .article .content a {
   word-wrap: break-word;
 }
+.article .level .level-start .level-item {
+  flex-wrap: wrap;
+}
 .rtl {
   direction: rtl;
 }
