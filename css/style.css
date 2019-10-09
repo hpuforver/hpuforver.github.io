@@ -77,6 +77,21 @@ img.thumbnail {
   display: flex;
   align-items: center;
 }
+.media .media-content {
+  overflow: hidden;
+}
+.media .media-content .content {
+  display: flex;
+  flex-direction: column;
+}
+.media .media-content .content .title {
+  width: 100%;
+  padding: 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 0;
+}
 .navbar-logo img,
 .footer-logo img {
   max-height: 1.75rem;
