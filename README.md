@@ -1,1 +1,1 @@
-<a href="https://hpuerforver.me" target="_blank" style="font-size: 35px; color: #0681d0">个人博客</a>
+# [博客](https://hpuerforver.me '博客地址')
