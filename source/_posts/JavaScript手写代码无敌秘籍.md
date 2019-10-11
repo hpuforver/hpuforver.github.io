@@ -43,10 +43,10 @@ comments:
 
 ***new*** 操作符做了这些事：
 - 它创建了一个全新的对象。
-- 它会被执行 ***[[ Prototype ]]***（也就是 ***`__proto__`***）链接。
-- 它使 ***this*** 指向新创建的对象。
-- 通过 ***new*** 创建的每个对象将最终被 ***[[ Prototype ]]*** 链接到这个函数的 ***prototype*** 对象上。
-- 如果函数没有返回对象类型 *** Object*** (包含 ***Functoin, Array, Date, RegExg, Error*** )，那么 ***new*** 表达式中的函数调用将返回该对象引用。
+- 它会被执行 <code>[[Prototype]]</code>（也就是 <code>`__proto__`</code>）链接。
+- 它使 <code>this</code> 指向新创建的对象。
+- 通过 <code>new</code> 创建的每个对象将最终被 <code>[[Prototype]]</code> 链接到这个函数的 <code>prototype</code> 对象上。
+- 如果函数没有返回对象类型 <code>Object</code> (包含 <code>Functoin, Array, Date, RegExg, Error</code> )，那么 <code>new</code> 表达式中的函数调用将返回该对象引用。
 
 <!-- 代码块 -->
 ```javascript
