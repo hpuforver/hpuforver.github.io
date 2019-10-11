@@ -207,9 +207,9 @@
 <p><strong><em>new</em></strong> 操作符做了这些事：</p>
 <ul>
 <li>它创建了一个全新的对象。</li>
-<li>它会被执行 <strong><em>[[ Prototype ]]</em></strong>（也就是 <strong><em><code>__proto__</code></em></strong>）链接。</li>
-<li>它使 <strong><em>this</em></strong> 指向新创建的对象。</li>
-<li>通过 <strong><em>new</em></strong> 创建的每个对象将最终被 <strong><em>[[ Prototype ]]</em></strong> 链接到这个函数的 <strong><em>prototype</em></strong> 对象上。</li>
+<li>它会被执行 <code style="color:#ff502c">[[ Prototype ]]</code>（也就是 <code style="color:#ff502c"><code>__proto__</code></code>）链接。</li>
+<li>它使 <code style="color:#ff502c">this</code> 指向新创建的对象。</li>
+<li>通过 <code style="color:#ff502c">new</code> 创建的每个对象将最终被 <strong><em>[[ Prototype ]]</em></strong> 链接到这个函数的 <strong><em>prototype</em></strong> 对象上。</li>
 <li>如果函数没有返回对象类型 <strong><em> Object</em></strong> (包含 <strong><em>Functoin, Array, Date, RegExg, Error</em></strong> )，那么 <strong><em>new</em></strong> 表达式中的函数调用将返回该对象引用。</li>
 </ul>
 <!-- 代码块 -->
