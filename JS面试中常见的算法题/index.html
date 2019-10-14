@@ -150,7 +150,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 192 个字)
+                    3 分钟 读完 (大约 409 个字)
                 </span>
                 
                 
@@ -168,15 +168,20 @@
             
         </h1>
         <div class="content">
-            <h4 id="js除了基础知识以外，算法也是挺重要的。因此特意整理了一些常见的算法题，希望大家有帮助。"><a href="#js除了基础知识以外，算法也是挺重要的。因此特意整理了一些常见的算法题，希望大家有帮助。" class="headerlink" title="js除了基础知识以外，算法也是挺重要的。因此特意整理了一些常见的算法题，希望大家有帮助。"></a>js除了基础知识以外，算法也是挺重要的。因此特意整理了一些常见的算法题，希望大家有帮助。</h4><a id="more"></a>
-<h2 id="1、验证一个数是否是素数"><a href="#1、验证一个数是否是素数" class="headerlink" title="1、验证一个数是否是素数"></a>1、验证一个数是否是素数</h2><ol>
+            <p><strong><em>js除了基础知识以外，算法也是挺重要的。因此特意整理了一些常见的算法题，希望大家有帮助。</em></strong></p>
+<a id="more"></a>
+<h2 id="1、验证一个数是否是素数"><a href="#1、验证一个数是否是素数" class="headerlink" title="1、验证一个数是否是素数"></a><font><strong><em>1、验证一个数是否是素数</em></strong></font></h2><ol>
 <li>如果这个数是 2 或 3，一定是素数；</li>
 <li>如果是偶数，一定不是素数；</li>
 <li>如果这个数不能被3~它的平方根中的任一数整除，m必定是素数。而且除数可以每次递增（排除偶数）。</li>
 </ol>
 <figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isPrime</span>(<span class="hljs-params">num</span>)</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (num === <span class="hljs-number">2</span> || num === <span class="hljs-number">3</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="hljs-keyword">if</span> (num % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="hljs-keyword">let</span> divisor = <span class="hljs-number">3</span>,limit = <span class="hljs-built_in">Math</span>.sqrt(num);</span><br><span class="line">    <span class="hljs-keyword">while</span>(limit &gt;= divisor)&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (num % divisor === <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            divisor += <span class="hljs-number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(isPrime(<span class="hljs-number">30</span>));  <span class="hljs-comment">// false</span></span><br></pre></td></tr></table></figure>
-<h3 id="2、斐波那契"><a href="#2、斐波那契" class="headerlink" title="2、斐波那契"></a>2、斐波那契</h3><p>最简单的做法：递归。</p>
+<h2 id="2、斐波那契"><a href="#2、斐波那契" class="headerlink" title="2、斐波那契"></a><font><strong><em>2、斐波那契</em></strong></font></h2><p>最简单的做法：递归。</p>
 <figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fibonacci</span>(<span class="hljs-params">n</span>)</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (n &lt;= <span class="hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> fibonacci(n<span class="hljs-number">-1</span>) + fibonacci(n<span class="hljs-number">-2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是递归会有严重的效率问题。比如想要求得f(10)，首先需要求f(9)和f(8)。同样，想求f(9)，首先需要f(8)和f(7)…这样就有很多重复值，计算量也很大。</p>
+<p>改进：从下往上计算，首先根据f(0)和f(1)计算出f(2)，再根据f(1)和f(2)计算出f(3)……以此类推就可以计算出第n项。时间复杂度O(n)。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fibonacci</span>(<span class="hljs-params">n</span>)</span>&#123;</span><br><span class="line">    <span class="hljs-keyword">let</span> ori = [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>];</span><br><span class="line">    <span class="hljs-keyword">if</span> (n &lt; <span class="hljs-number">2</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> ori[n];</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="hljs-keyword">let</span> fiboOne = <span class="hljs-number">1</span>,fiboTwo = <span class="hljs-number">0</span>,fiboSum = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        fiboSum = fiboOne + fiboTwo;</span><br><span class="line">        fiboTwo = fiboOne;</span><br><span class="line">        fiboOne = fiboSum;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> fiboSum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-built_in">console</span>.log(fibonacci(<span class="hljs-number">5</span>));</span><br></pre></td></tr></table></figure>
+<h3 id="3、求最大公约数"><a href="#3、求最大公约数" class="headerlink" title="3、求最大公约数"></a><strong>3、求最大公约数</strong></h3><p>除数 在a和b的范围内，如果同时a和b处以除数的余等于0，就将此时的除数赋值给res；除数自增，不断循环上面的计算，更新res。</p>
 
         </div>
         
