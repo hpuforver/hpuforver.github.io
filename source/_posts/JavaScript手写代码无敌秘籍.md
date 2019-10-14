@@ -5,8 +5,8 @@ date: 2019-10-07 23:19:44
 updated: 2019-10-08 23:19:44
 layout:
 tags: 
+    - javaScript
     - 面试
-    - JavaScript
     - 'JSON.stringify'
     - 'JSON.parse'
     - call/apply/bind
@@ -17,11 +17,11 @@ tags:
     - 继承
     - instanceOf
 categories:
+    - javaScript
     - 面试
-    - JavaScript
 comments:
 ---
-中高级前端面试之手写代码
+#### 中高级前端面试之手写代码
 
 <!-- more -->
 
